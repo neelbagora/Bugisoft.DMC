@@ -1,42 +1,59 @@
+from asyncio import sleep
+
 import discord
-import asyncio
 
-#
-import logging
-logging.basicConfig(level=logging.INFO)
-#
-
-#Imports command libraries.
-#exec(open('config.txt').read())
-#if (text):
-#    from textCommands import ping
+from passives.Log import Log
+from textCommands.Ping import Ping
 
 client = discord.Client()
 
-@client.event
-async def on_ready():
-    print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
-    print('------')
+# Command Instances
+logger = Log()
+pinger = Ping(client)
+
 
 @client.event
 async def on_message(message):
-    if message.content.startswith('!test'):
-        counter = 0
-        tmp = await client.send_message(message.channel, 'Calculating messages...')
-        async for log in client.logs_from(message.channel, limit=100):
-            if log.author == message.author:
-                counter += 1
+    # Logging
+    if loggerEnabled:
+        await logger.addline(message)
 
-        await client.edit_message(tmp, 'You have {} messages.'.format(counter))
+    # Confirms User Is Not Bot
+    if message.author == client.user:
+        return
+
+    # Confirms Prefix
+    if not message.content.startswith('!'):
+        return
+
+    # TEXT COMMANDS
+    # Help
+    if message.content.startswith('!help'):
+        client.send_message("```Help Commands:```")
+        client.send_message("```       ```")
+        client.send_message("```Help Commands```")
+        client.send_message("```Help Commands```")
+        client.send_message("```Help Commands```")
+        client.send_message("```Help Commands```")
+        client.send_message("```Help Commands```")
+
+    # Timer Command
     if message.content.startswith('!sleep'):
-        await asyncio.sleep(5)
+        await sleep(5)
         await client.send_message(message.channel, 'Done sleeping')
-    if message.content.startswith('!ping'):
-        await client.send_message(message.channel, 'pong')
-    if message.content.startswith('!stop'):
-        client.close
 
+    if message.content.startswith('!ping'):
+        await pinger.pingbot(message)
+
+    # VOICE COMMANDS
+
+    if message.content.startswith('!join'):
+        client.join_voice_channel()
+
+
+#    if message.content.startswith('!delete'):
+
+exec(open('config.txt').read())
 exec(open('credentials.txt').read())
+
 client.run(bot_token)

@@ -1,2 +1,10 @@
-text = 1
-voice = 0
+text = True
+voice = True
+
+#Ambient Controls
+loggerEnabled = True
+
+#Text Commands
+pingEnabled = True
+
+#Voice Commands
