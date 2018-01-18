@@ -8,5 +8,5 @@ class Log:
 
     async def addline(self, message):
         file = open(self.filename, 'a')
-        file.write(message)
+        file.write(str(message))
         file.close()
