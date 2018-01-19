@@ -30,15 +30,10 @@ async def on_message(message):
     # Help
     if message.content.startswith('!help'):
         client.send_message("```Help Commands:```")
-        client.send_message("```       ```")
-        client.send_message("```Help Commands```")
-        client.send_message("```Help Commands```")
-        client.send_message("```Help Commands```")
-        client.send_message("```Help Commands```")
-        client.send_message("```Help Commands```")
 
     # Timer Command
     if message.content.startswith('!sleep'):
+        message.content
         await sleep(5)
         await client.send_message(message.channel, 'Done sleeping')
 
