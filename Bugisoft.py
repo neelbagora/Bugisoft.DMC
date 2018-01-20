@@ -4,6 +4,9 @@ from passives.Log import Log
 from passives.TextFormatter import TextFormatter
 from textCommands.Ping import Ping
 from textCommands.Time import Time
+from voiceCommands.MusicPlayer import MusicPlayer
+from voiceCommands.MusicQue import MusicQue
+from voiceCommands.VoiceConnecter import VoiceConnector
 
 client = discord.Client()
 
@@ -12,11 +15,13 @@ logger = Log()
 pinger = Ping(client)
 timer = Time(client)
 textFormatter = TextFormatter()
+voiceConnector = VoiceConnector()
 
 
 @client.event
 async def on_message(message):
     # Logging
+    global musicPlayer
     if loggerEnabled:
         await logger.addline(message)
 
@@ -30,6 +35,7 @@ async def on_message(message):
 
     # Formats Text
     parameters = textFormatter.formatMessageToParameters(message)
+    print(parameters)
 
     # TEXT COMMANDS
     # Help
@@ -37,20 +43,31 @@ async def on_message(message):
         client.send_message("```Help Commands:```")
 
     # Timer Commands
-    if message.content.startswith('!sleep'):
-        await timer.sleep()
+    if parameters[0] == 'sleep':
+        await timer.sleep(message, parameters)
 
     # Ping
     if parameters[0] == 'ping':
         await pinger.pingbot(message)
 
-    # VOICE COMMANDS
+    if parameters[0] == 'join':
+        await voiceConnector.join(client, message.author.voice_channel)
 
-    if message.content.startswith('!join'):
-        client.join_voice_channel()
+    if parameters[0] == 'leave':
+        await voiceConnector.leave()
 
+    if parameters[0] == 'pause':
+        await MusicPlayer.pause()
 
-#    if message.content.startswith('!delete'):
+    if parameters[0] == 'unpause':
+        await MusicPlayer.unpause()
+
+    if parameters[0] == 'clear':
+        await MusicPlayer.clear()
+
+    if parameters[0] == 'que':
+        await MusicQue.add(parameters[1])
+
 
 exec(open('config.txt').read())
 exec(open('credentials.txt').read())

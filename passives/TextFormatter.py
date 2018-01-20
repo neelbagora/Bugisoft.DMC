@@ -18,7 +18,7 @@ class TextFormatter:
 
         # Adds Separated Words as Parameters
         parameter = ''
-        for i in range(0, len(text)):
+        for i in range(1, len(text)):
             if text[i] != ' ':
                 parameter += text[i]
             else:
