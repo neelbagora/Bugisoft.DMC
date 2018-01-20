@@ -1,15 +1,17 @@
-from asyncio import sleep
-
 import discord
 
 from passives.Log import Log
+from passives.TextFormatter import TextFormatter
 from textCommands.Ping import Ping
+from textCommands.Time import Time
 
 client = discord.Client()
 
 # Command Instances
 logger = Log()
 pinger = Ping(client)
+timer = Time(client)
+textFormatter = TextFormatter()
 
 
 @client.event
@@ -26,19 +28,20 @@ async def on_message(message):
     if not message.content.startswith('!'):
         return
 
+    # Formats Text
+    parameters = textFormatter.formatMessageToParameters(message)
+
     # TEXT COMMANDS
     # Help
-    if message.content.startswith('!help'):
-        client.send_message("```Help Commands:```"
+    if parameters[0] == 'help':
+        client.send_message("```Help Commands:```")
 
-
-    # Timer Command
+    # Timer Commands
     if message.content.startswith('!sleep'):
-        message.content
-        await sleep(5)
-        await client.send_message(message.channel, 'Done sleeping')
+        await timer.sleep()
 
-    if message.content.startswith('!ping'):
+    # Ping
+    if parameters[0] == 'ping':
         await pinger.pingbot(message)
 
     # VOICE COMMANDS
