@@ -29,7 +29,8 @@ async def on_message(message):
     # TEXT COMMANDS
     # Help
     if message.content.startswith('!help'):
-        client.send_message("```Help Commands:```")
+        client.send_message("```Help Commands:```"
+
 
     # Timer Command
     if message.content.startswith('!sleep'):
