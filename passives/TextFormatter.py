@@ -3,17 +3,15 @@ from collections import deque
 
 class TextFormatter:
 
-    def __init__(self):
-        self.maxLength = 32
-
-    def formatMessageToParameters(self, message):
+    @staticmethod
+    def formatMessageToParameters(message):
         text = str(message.content)
         formattedParameters = deque()
 
         # Enforces Max Length of Commands
-        if len(text) > self.maxLength:
+        if len(text) > 32:
             newText = ''
-            for i in range(0, self.maxLength):
+            for i in range(0, 32):
                 newText = text[i]
 
         # Adds Separated Words as Parameters

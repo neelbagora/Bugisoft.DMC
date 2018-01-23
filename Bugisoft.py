@@ -10,20 +10,16 @@ from voiceCommands.VoiceConnecter import VoiceConnector
 
 client = discord.Client()
 
+
 # Command Instances
-logger = Log()
-pinger = Ping(client)
 timer = Time(client)
-textFormatter = TextFormatter()
-voiceConnector = VoiceConnector()
 
 
 @client.event
 async def on_message(message):
     # Logging
-    global musicPlayer
     if loggerEnabled:
-        await logger.addline(message)
+        await Log.addline()
 
     # Confirms User Is Not Bot
     if message.author == client.user:
@@ -34,7 +30,7 @@ async def on_message(message):
         return
 
     # Formats Text
-    parameters = textFormatter.formatMessageToParameters(message)
+    parameters = TextFormatter.formatMessageToParameters(message)
     print(parameters)
 
     # TEXT COMMANDS
@@ -48,13 +44,13 @@ async def on_message(message):
 
     # Ping
     if parameters[0] == 'ping':
-        await pinger.pingbot(message)
+        await Ping.pingbot(client, message)
 
     if parameters[0] == 'join':
-        await voiceConnector.join(client, message.author.voice_channel)
+        await VoiceConnector.join(client, message.author.voice_channel)
 
     if parameters[0] == 'leave':
-        await voiceConnector.leave()
+        await VoiceConnector.leave()
 
     if parameters[0] == 'pause':
         await MusicPlayer.pause()
