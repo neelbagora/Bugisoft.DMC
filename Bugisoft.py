@@ -1,5 +1,6 @@
 import discord
 
+import Leak
 from passives.Log import Log
 from passives.TextFormatter import TextFormatter
 from textCommands.Ping import Ping
@@ -10,27 +11,30 @@ from voiceCommands.VoiceConnecter import VoiceConnector
 
 client = discord.Client()
 
+Leak.client = client
+Leak.message = None
+Leak.parameters = None
+
 
 # Command Instances
-timer = Time(client)
 
 
 @client.event
 async def on_message(message):
+    Leak.message = message
+
+
     # Logging
     if loggerEnabled:
         await Log.addline()
 
-    # Confirms User Is Not Bot
-    if message.author == client.user:
-        return
-
-    # Confirms Prefix
-    if not message.content.startswith('!'):
+    # Confirms User Is Not Bot and Filters Out Non Bot Messages
+    if message.author == client.user or not message.content.startswith('!'):
         return
 
     # Formats Text
-    parameters = TextFormatter.formatMessageToParameters(message)
+    parameters = TextFormatter.formatMessageToParameters()
+    Leak.parameters = parameters
     print(parameters)
 
     # TEXT COMMANDS
@@ -38,31 +42,30 @@ async def on_message(message):
     if parameters[0] == 'help':
         client.send_message("```Help Commands:```")
 
-    # Timer Commands
-    if parameters[0] == 'sleep':
-        await timer.sleep(message, parameters)
-
     # Ping
-    if parameters[0] == 'ping':
-        await Ping.pingbot(client, message)
+    elif parameters[0] == 'ping':
+        await Ping.pingbot()
 
-    if parameters[0] == 'join':
-        await VoiceConnector.join(client, message.author.voice_channel)
+    elif parameters[0] == 'join':
+        await VoiceConnector.join()
 
-    if parameters[0] == 'leave':
+    elif parameters[0] == 'leave':
         await VoiceConnector.leave()
 
-    if parameters[0] == 'pause':
+    elif parameters[0] == 'pause':
         await MusicPlayer.pause()
 
-    if parameters[0] == 'unpause':
+    elif parameters[0] == 'unpause':
         await MusicPlayer.unpause()
 
-    if parameters[0] == 'clear':
+    elif parameters[0] == 'clear':
         await MusicPlayer.clear()
 
-    if parameters[0] == 'que':
-        await MusicQue.add(parameters[1])
+    elif parameters[0] == 'que' or parameters[0] == 'play':
+        await MusicQue.add()
+
+    elif parameters[0] == 'sleep':
+        Time.sleep()
 
 
 exec(open('config.txt').read())

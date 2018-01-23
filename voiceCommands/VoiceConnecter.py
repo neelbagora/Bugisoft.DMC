@@ -1,14 +1,11 @@
-import Bugisoft
-from voiceCommands.MusicPlayer import MusicPlayer
-
-
 class VoiceConnector:
-
     voice = None
 
     @staticmethod
-    async def join(channel):
-        VoiceConnector.voice = await Bugisoft.client.join_voice_channel(channel)
+    async def join():
+        from Leak import client, message
+        VoiceConnector.voice = await client.join_voice_channel(message.author.voice_channel)
+        from voiceCommands.MusicPlayer import MusicPlayer
         await MusicPlayer.init(VoiceConnector.voice)
 
     @staticmethod

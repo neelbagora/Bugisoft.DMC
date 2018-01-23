@@ -4,7 +4,8 @@ from collections import deque
 class TextFormatter:
 
     @staticmethod
-    def formatMessageToParameters(message):
+    def formatMessageToParameters():
+        from Leak import message
         text = str(message.content)
         formattedParameters = deque()
 

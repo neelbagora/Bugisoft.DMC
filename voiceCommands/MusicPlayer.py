@@ -1,7 +1,5 @@
 from asyncio import sleep
 
-from voiceCommands.MusicQue import MusicQue
-
 
 class MusicPlayer:
     voice = None
@@ -12,7 +10,7 @@ class MusicPlayer:
         MusicPlayer.voice = voice
         MusicPlayer.player = await MusicPlayer.voice.create_ytdl_player('https://www.youtube.com/watch?v=MqRhQe6oaJA')
         await MusicPlayer.start()
-        await MusicPlayer.play()
+        await MusicPlayer.loop()
 
     @staticmethod
     async def start():
@@ -27,8 +25,9 @@ class MusicPlayer:
         MusicPlayer.player.resume()
 
     @staticmethod
-    async def play():
+    async def loop():
         while True:
+            from voiceCommands.MusicQue import MusicQue
             if MusicPlayer.player.is_done() and len(MusicQue.musicQue) > 0:
                 nextSong = MusicQue.musicQue.popleft()
                 if nextSong != '':
@@ -38,4 +37,5 @@ class MusicPlayer:
 
     @staticmethod
     async def clear():
+        from voiceCommands.MusicQue import MusicQue
         MusicQue.musicQue.clear()

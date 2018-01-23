@@ -1,4 +1,6 @@
 class Ping:
 
-    @staticmethod async def pingbot(client, message):
+    @staticmethod
+    async def pingbot():
+        from Leak import client, message
         await client.send_message(message.channel, "Pong!")
