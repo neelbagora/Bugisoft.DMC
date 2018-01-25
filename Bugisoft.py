@@ -11,18 +11,24 @@ from voiceCommands.VoiceConnecter import VoiceConnector
 
 client = discord.Client()
 
+# Config and Credential Vars
+loggerEnabled = None
+bot_token = None
+
+# Leaked Vars
 Leak.client = client
 Leak.message = None
 Leak.parameters = None
 
 
-# Command Instances
+@client.event
+async def on_ready():
+    Log.init()
 
 
 @client.event
 async def on_message(message):
     Leak.message = message
-
 
     # Logging
     if loggerEnabled:
@@ -42,7 +48,6 @@ async def on_message(message):
     if parameters[0] == 'help':
         client.send_message("```Help Commands:```")
 
-    # Ping
     elif parameters[0] == 'ping':
         await Ping.pingbot()
 
