@@ -23,7 +23,7 @@ Leak.parameters = None
 
 @client.event
 async def on_ready():
-    Log.init()
+    await Log.init()
 
 
 @client.event
