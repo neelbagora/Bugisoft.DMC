@@ -4,7 +4,7 @@ class Invite:
         from Leak import client
         from Leak import message
         from Leak import parameters
-        if (parameters[1] != None):
+        if len(parameters) == 1:
             link = await client.create_invite(message.channel, max_age=60, max_uses=1, temporary=False, unique=True)
         else:
             link = await client.create_invite(message.channel, max_age=parameters[1]*60, max_uses=1, temporary=False, unique=True)
