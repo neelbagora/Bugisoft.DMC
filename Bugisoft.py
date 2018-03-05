@@ -8,6 +8,7 @@ from textCommands.Time import Time
 from voiceCommands.MusicPlayer import MusicPlayer
 from voiceCommands.MusicQue import MusicQue
 from voiceCommands.VoiceConnecter import VoiceConnector
+from textCommands.Invite import Invite
 
 client = discord.Client()
 
@@ -71,6 +72,9 @@ async def on_message(message):
 
     elif parameters[0] == 'sleep':
         Time.sleep()
+
+    elif parameters[0] == 'invite':
+        await Invite.create_invite()
 
 
 exec(open('config.txt').read())
