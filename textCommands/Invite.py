@@ -7,6 +7,7 @@ class Invite:
         if len(parameters) == 1:
             link = await client.create_invite(message.channel, max_age=60, max_uses=1, temporary=False, unique=True)
         else:
-            link = await client.create_invite(message.channel, max_age=parameters[1]*60, max_uses=1, temporary=False, unique=True)
+            time = int(parameters[1]) * 60
+            link = await client.create_invite(message.channel, max_age=time, max_uses=1, temporary=False, unique=True)
         await client.send_message(message.channel, link)
         await client.delete_message(message)
