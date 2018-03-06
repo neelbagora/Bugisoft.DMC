@@ -71,7 +71,7 @@ async def on_message(message):
         await MusicQue.add()
 
     elif parameters[0] == 'sleep':
-        Time.sleep()
+        await Time.sleep()
 
     elif parameters[0] == 'invite':
         await Invite.create_invite()

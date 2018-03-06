@@ -1,1 +1,2 @@
-loggerEnabled = True
+loggerEnabled = False
+loggingLocation = None

@@ -39,3 +39,21 @@ class MusicPlayer:
     async def clear():
         from voiceCommands.MusicQue import MusicQue
         MusicQue.musicQue.clear()
+
+    @staticmethod
+    async def skip():
+        from Leak import parameters
+        from voiceCommands.MusicQue import MusicQue
+        if parameters[1]:
+            MusicQue.removeSingle()
+        elif parameters[2]:
+            MusicQue.removeMultiple()
+        elif not parameters[1]:
+            MusicPlayer.skipCurrent()
+
+    @staticmethod
+    async def skipCurrent():
+        MusicPlayer.player.stop()
+        MusicPlayer.player.start()
+
+

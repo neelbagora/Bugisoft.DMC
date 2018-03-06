@@ -12,3 +12,17 @@ class MusicQue:
     @staticmethod
     async def pop():
         return await MusicQue.musicQue.popleft()
+
+    @staticmethod
+    async def removeSingle():
+        from Leak import parameters
+        await MusicQue.musicQue.index(parameters[1])
+
+    @staticmethod
+    async def removeMultiple():
+        from Leak import parameters
+        await MusicQue.musicQue.index(None, parameters[1], parameters[2])
+
+    @staticmethod
+    async def list():
+        None
