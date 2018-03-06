@@ -3,12 +3,14 @@ import discord
 import Leak
 from passives.Log import Log
 from passives.TextFormatter import TextFormatter
+from textCommands.Help import Help
 from textCommands.Ping import Ping
 from textCommands.Time import Time
 from voiceCommands.MusicPlayer import MusicPlayer
 from voiceCommands.MusicQue import MusicQue
 from voiceCommands.VoiceConnecter import VoiceConnector
 from textCommands.Invite import Invite
+from textCommands.VoiceChannel import VoiceChannel
 
 client = discord.Client()
 
@@ -47,7 +49,7 @@ async def on_message(message):
     # TEXT COMMANDS
     # Help
     if parameters[0] == 'help':
-        client.send_message("```Help Commands:```")
+        await Help.display_help()
 
     elif parameters[0] == 'ping':
         await Ping.pingbot()
@@ -75,6 +77,11 @@ async def on_message(message):
 
     elif parameters[0] == 'invite':
         await Invite.create_invite()
+
+    elif parameters[0] == 'open':
+        await VoiceChannel.create_channel()
+
+
 
 
 exec(open('config.txt').read())
