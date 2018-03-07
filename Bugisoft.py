@@ -24,12 +24,12 @@ Leak.message = None
 Leak.parameters = None
 
 
-@client.event
+@client.async_event
 async def on_ready():
     await Log.init()
 
 
-@client.event
+@client.async_event
 async def on_message(message):
     Leak.message = message
 
@@ -45,6 +45,8 @@ async def on_message(message):
     parameters = TextFormatter.formatMessageToParameters()
     Leak.parameters = parameters
     print(parameters)
+
+    await client.delete_message(message)
 
     # TEXT COMMANDS
     # Help
@@ -81,7 +83,14 @@ async def on_message(message):
     elif parameters[0] == 'open':
         await VoiceChannel.create_channel()
 
+    elif parameters[0] == 'close':
+        await VoiceChannel.remove_empty_channels()
 
+
+@client.async_event
+async def on_voice_state_update(before, after):
+    if before.voice.voice_channel is not None:
+        await VoiceChannel.remove_empty_channels()
 
 
 exec(open('config.txt').read())

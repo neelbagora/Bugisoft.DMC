@@ -10,4 +10,6 @@ class VoiceConnector:
 
     @staticmethod
     async def leave():
-        await VoiceConnector.voice.disconnect()
+        if VoiceConnector.voice is not None:
+            await VoiceConnector.voice.disconnect()
+            VoiceConnector.voice = None

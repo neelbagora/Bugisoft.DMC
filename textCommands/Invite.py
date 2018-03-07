@@ -11,7 +11,6 @@ class Invite:
             time = int(parameters[1]) * 60
             link = await client.create_invite(message.channel, max_age=time, max_uses=1, temporary=False, unique=True)
         invitemessage = await client.send_message(message.channel, link)
-        await client.delete_message(message)
         from asyncio import sleep
         await sleep(time)
         await client.delete_message(invitemessage)
