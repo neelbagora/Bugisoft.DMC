@@ -29,3 +29,10 @@ class TextFormatter:
             formattedParameters.append(parameter)
 
         return formattedParameters
+
+    @staticmethod
+    def format_mention_to_id(mention):
+        id = ''
+        for i in range(2, len(mention) - 1):
+            id += mention[i]
+        return id
