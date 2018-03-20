@@ -1,3 +1,5 @@
+from collections import deque
+
 import discord
 
 import Leak
@@ -10,8 +12,7 @@ bot_token = None
 
 # Leaked Vars
 Leak.client = client
-Leak.message = None
-Leak.parameters = None
+Leak.messageArr = deque()
 
 
 @client.async_event
@@ -23,6 +24,7 @@ async def on_ready():
 @client.async_event
 async def on_message(message):
     Leak.message = message
+    Leak.messageArr.appendleft(message)
 
     # Logging
     if loggerEnabled:
@@ -90,6 +92,10 @@ async def on_message(message):
     elif parameters[0] == 'close':
         from textCommands.VoiceChannel import VoiceChannel
         await VoiceChannel.remove_empty_channels()
+
+    elif parameters[0] == 'log':
+        from textCommands.ReportMessages import reportMessages
+        await reportMessages.sendMessages()
 
     if message.author.id != 119978889891151876:
         return
